@@ -1,0 +1,20 @@
+name: Create Production Builds
+on:
+    push:
+        branches: ["main"]
+
+jobs:
+    build_ios:
+        runs-on: ubuntu-latest
+        steps:
+            - name: 🏗 Setup repo
+              uses: actions/checkout@v4
+
+            - name: 🏗 Setup Expo
+              uses: expo/expo-github-action@v8
+              with:
+                  eas-version: latest
+                  token: ${{ secrets.EXPO_TOKEN }}
+
+            - name: 🚀 Build iOS
+              run: eas build --platform ios --profile prod --non-interactive
