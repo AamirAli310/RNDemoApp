@@ -1,0 +1,146 @@
+{
+  "cli": {
+    "version": ">= 16.28.0",
+    "appVersionSource": "remote", // or "local" REMOTE MEANS IT WILL MANAGE THE VERSION ON EAS SERVER          
+    "requireCommit": true, //AA: ONLY TRUE IF WE WANT COMMITED CHANGES VERIFIED BY EAS BEFORE BUILDING OR DEPLOYING NEW VERSION
+    // "appVersionSource": string,
+    // "promptToConfigurePushNotifications": boolean,       
+  },
+  "build": {
+    "base": {
+      "node": "22.21.1", //AA: CAN BE DECLARED WITHIN IOS AND ANDROID SEPARATE SEPARATE IF THERE ARE ANY PACKAGE DEPENDECIES
+      "yarn": "1.22.22",
+      // "config": ".eas/build/production.yml",//FOR AUTOMATION CD/CI PIPELINE CONFIGURATION
+      "android": {
+        "image": "default",
+        "ndk": "21.4.7075529",
+        "env": {
+          "PLATFORM": "android"
+        }
+      },
+      "ios": {
+        "image": "latest",
+        // "node": "22.21.1",
+        // "yarn": "1.22.22",
+        "env": {
+          "PLATFORM": "ios"
+        }
+      }
+    },
+    "development": { //AA: DEV
+      "extends": "base",
+      "developmentClient": true,
+      "distribution": "internal",
+      "environment": "development", //AA: THIS ENV IS LINK WITH PROJECT ENV VARIABLES UNDER DEVELOPMENT PROFILE
+      "android": {
+        "withoutCredentials": true,
+        "gradleCommand": ":app:assembleDebug",
+        "resourceClass": "medium"
+      },
+      "ios": {
+        "simulator": true,
+        "buildConfiguration": "Debug",
+        "resourceClass": "large"
+      },
+      "env": {
+        "APP_VARIANT": "development"
+      }
+    },
+    "preview": { //AA: UAT
+      "extends": "base",
+      "distribution": "internal",
+      "environment": "preview", //AA: THIS ENV IS LINK WITH PROJECT ENV VARIABLES UNDER PREVIEW PROFILE
+      "android": {
+        "withoutCredentials": true,
+        "gradleCommand": ":app:assembleRelease",
+        "buildType": "apk"
+      },
+      "ios": {
+        "simulator": true,
+        "buildConfiguration": "Release"
+      },
+      "env": {
+        "APP_VARIANT": "preview"
+      }
+    },
+    "production": { //AA: PROD
+      "extends": "base",
+      "distribution": "store",
+      "environment": "production", //AA: THIS ENV IS LINK WITH PROJECT ENV VARIABLES UNDER PRODUCTION PROFILE
+      "android": {
+        "withoutCredentials": true,
+        "gradleCommand": ":app:assembleRelease",
+        "resourceClass": "medium"
+      },
+      "ios": {
+        "buildConfiguration": "Release",
+        "resourceClass": "large"
+      },
+      "env": {
+        "APP_VARIANT": "production"
+      }
+    },
+    //AA: BUILD VARIANTS WITH FURTHER PROPERTIES ENHANCEMENTS
+    "dev": { //AA: DEV-BUILD
+      "extends": "development",
+      "channel": "dev",
+      "env": {
+        "APP_VARIANT": "dev",
+        "API_URL": "https://staging.company.com/api"
+      },
+      "android": {
+        //"scheme": "rndemoapp-dev"
+      },
+      "ios": {
+        "scheme": "rndemoapp-dev"
+      }
+    },
+    "prod-beta": { //AA: PROD-BETA-BUILD
+      "extends": "preview",
+      "channel": "prod-beta",
+      "env": {
+        "APP_VARIANT": "prod-beta",
+        "API_URL": "https://staging.company.com/api"
+      },
+      "android": {
+        //"scheme": "rndemoapp-beta"
+      },
+      "ios": {
+        "scheme": "rndemoapp-beta"
+      }
+    },
+    "uat": { //AA: UAT-BUILD
+      "extends": "preview",
+      "channel": "uat",
+      "env": {
+        "APP_VARIANT": "uat",
+        "API_URL": "https://staging.company.com/api"
+      },
+      "android": {
+        //"scheme": "rndemoapp-uat"
+      },
+      "ios": {
+        "scheme": "rndemoapp-uat"
+      }
+    },
+    "prod": { //AA: PROD-BUILD
+      "extends": "production",
+      "autoIncrement": true,
+      "channel": "prod",
+      "env": {
+        "APP_VARIANT": "prod",
+        "API_URL": "https://app.company.com/api"
+      },
+      "android": {
+        //"scheme": "rndemoapp"
+      },
+      "ios": {
+        "scheme": "rndemoapp"
+      }
+    }
+  },
+  "submit": {
+    "prod": { //AA: XCODE BUILD SUBMISSION CONFIGURATION HERE
+    }
+  }
+}
