@@ -14,6 +14,7 @@ const isAndroid = () => {
 }
 
 const getAppIdentifier = () => {
+    console.log("AA: GetAppIdentifier Fired: ", isIOS());
     if (IS_DEV) {
         return "ae.scad.rndapp.dev";
     } else if (IS_UAT) {
@@ -26,6 +27,9 @@ const getAppIdentifier = () => {
 };
 
 const getAppRuntimeVersion = () => {
+
+    console.log("AA: GetAppVersion Fired: ", isIOS());
+
     if (isIOS()) {
         if (IS_DEV) {
             return "1.1.1";

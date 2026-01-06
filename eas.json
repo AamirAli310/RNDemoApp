@@ -2,7 +2,7 @@
   "cli": {
     "version": ">= 16.28.0",
     "appVersionSource": "remote", // or "local" REMOTE MEANS IT WILL MANAGE THE VERSION ON EAS SERVER          
-    "requireCommit": true, //AA: ONLY TRUE IF WE WANT COMMITED CHANGES VERIFIED BY EAS BEFORE BUILDING OR DEPLOYING NEW VERSION
+    "requireCommit": false, //AA: ONLY TRUE IF WE WANT COMMITED CHANGES VERIFIED BY EAS BEFORE BUILDING OR DEPLOYING NEW VERSION
     // "appVersionSource": string,
     // "promptToConfigurePushNotifications": boolean,       
   },
@@ -20,8 +20,6 @@
       },
       "ios": {
         "image": "latest",
-        // "node": "22.21.1",
-        // "yarn": "1.22.22",
         "env": {
           "PLATFORM": "ios"
         }
@@ -89,10 +87,16 @@
         "API_URL": "https://staging.company.com/api"
       },
       "android": {
-        //"scheme": "rndemoapp-dev"
+        //"scheme": "rndemoapp"
+        "env": {
+          "PLATFORM": "android"
+        }
       },
       "ios": {
-        "scheme": "rndemoapp-dev"
+        "scheme": "rndemoapp",
+        "env": {
+          "PLATFORM": "ios"
+        }
       }
     },
     "prod-beta": { //AA: PROD-BETA-BUILD
@@ -133,9 +137,15 @@
       },
       "android": {
         //"scheme": "rndemoapp"
+        "env": {
+          "PLATFORM": "android"
+        }
       },
       "ios": {
-        "scheme": "rndemoapp"
+        "scheme": "rndemoapp",
+        "env": {
+          "PLATFORM": "ios"
+        }
       }
     }
   },

@@ -1,9 +1,14 @@
 name: Create Production Builds
 on:
-  push:
+  pull_request:
     branches: ["main"]
 jobs:
+  # build_android:
+  #   type: build # This job type creates a production build for Android
+  #   params:
+  #     platform: android
   build_ios:
-    steps:
-      - name: 🚀 Build iOS
-        run: eas build --platform ios --profile prod --non-interactive
+    type: build # This job type creates a production build for iOS
+    params:
+      platform: ios
+      profile: prod
